@@ -7,8 +7,8 @@ const otherPlayerPaddle = new Paddle(
   document.getElementById('computer-paddle')
 );
 // const otherPlayerPaddle = document.getElementById('computer-paddle');
-let player1Score = document.getElementById('player-score');
-let player2Score = document.getElementById('computer-score');
+let player1Score = document.getElementById('player-score').textContent;
+let player2Score = document.getElementById('computer-score').textContent;
 const loadMessage = document.getElementById('load');
 
 const socket = io('/pong');
@@ -21,7 +21,12 @@ const update = function (time) {
   if (prevTime !== undefined) {
     const delta = time - prevTime;
     if (isReferee) {
-      ball.updateBall(delta, [playerPaddle.rect(), otherPlayerPaddle.rect()]);
+      ball.updateBall(
+        delta,
+        [playerPaddle.rect(), otherPlayerPaddle.rect()],
+        player1Score,
+        player2Score
+      );
     }
     // computerPaddle.updatePaddle(delta, ball.y);
   }
@@ -61,14 +66,13 @@ const gameLost = function () {
 
 const handleLostGame = function () {
   const rect = ball.rect();
-
   if (rect.right >= window.innerWidth) {
-    player1Score.textContent = parseInt(player1Score.textContent) + 1;
+    player1Score = parseInt(player1Score) + 1;
   } else {
-    player2Score.textContent = parseInt(player2Score.textContent) + 1;
+    player2Score = parseInt(player2Score) + 1;
   }
+  ball.reset(player1Score, player2Score);
 
-  ball.reset();
   //   computerPaddle.reset();
   //   resetGame();
 };
@@ -89,10 +93,17 @@ socket.on('paddleMove', (paddleData) => {
 });
 
 socket.on('ballMove', (ballData) => {
+  console.log(ballData);
   ball.x = ballData.ballX;
   ball.y = ballData.ballY;
-  player1Score = ballData.player1Score;
-  player2Score = ballData.player2Score;
+  document.getElementById('player-score').textContent = ballData.player1Score;
+  document.getElementById('computer-score').textContent = ballData.player2Score;
+
+  // player1 = ballData.player1Score;
+  // player2 = ballData.player2Score;
+  // console.log(ballData.player1Score, ballData.player2Score);
+  // player1Score = +ballData.player1Score;
+  // player2Score = +ballData.player2Score;
 });
 
 window.requestAnimationFrame(update);

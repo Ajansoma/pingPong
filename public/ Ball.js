@@ -3,8 +3,6 @@ const VELOCITY_INCREASE = 0.00001;
 const socket = io('/pong');
 let ballX;
 let ballY;
-let player1Score = document.getElementById('player-score');
-let player2Score = document.getElementById('computer-score');
 
 export default class Ball {
   constructor(ballEl) {
@@ -32,7 +30,7 @@ export default class Ball {
     return this.ballEl.getBoundingClientRect();
   }
 
-  reset() {
+  reset(player1Score, player2Score) {
     this.x = 50;
     this.y = 50;
     this.direction = { x: 0, y: 0 };
@@ -56,7 +54,7 @@ export default class Ball {
     });
   }
 
-  updateBall(delta, paddleRect) {
+  updateBall(delta, paddleRect, player1Score, player2Score) {
     this.velocity += VELOCITY_INCREASE * delta;
     this.x += this.direction.x * this.velocity * delta;
     this.y += this.direction.y * this.velocity * delta;
