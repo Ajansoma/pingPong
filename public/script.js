@@ -2,7 +2,6 @@ import Ball from './ Ball.js';
 import Paddle from './Paddle.js';
 
 const ball = new Ball(document.getElementById('ball'));
-// const score = document.getElementById('score');
 const player1Paddle = new Paddle(document.getElementById('player-paddle'));
 const player2Paddle = new Paddle(document.getElementById('computer-paddle'));
 let player1Score = document.getElementById('player-score').textContent;
@@ -78,8 +77,6 @@ const handleLostGame = function () {
     player2Score = parseInt(player2Score) + 1;
   }
   ball.reset(player1Score, player2Score);
-  //   computerPaddle.reset();
-  //   resetGame();
 };
 
 socket.on('connect', () => {
