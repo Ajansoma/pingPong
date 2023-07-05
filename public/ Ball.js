@@ -1,4 +1,4 @@
-const VELOCITY = 0.025;
+const VELOCITY = 0.015;
 const VELOCITY_INCREASE = 0.00001;
 const socket = io('/pong');
 let ballX;

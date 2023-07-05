@@ -31,7 +31,7 @@ body {
 
 .player-score,
 .computer-score {
-  display: flex;
+  display: none;
   flex: 1;
 }
 
